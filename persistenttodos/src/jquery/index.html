@@ -1,48 +1,86 @@
+<!-- one.upload http://slicnet.com/info/info/apps/textsync/files/myApp -->
 <!doctype html>
 <html lang="en" data-framework="jquery">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<title>jQuery • TodoMVC</title>
-	<link rel="stylesheet" href="bower_components/todomvc-common/base.css">
-	<link rel="stylesheet" href="css/app.css">
+	<link rel="stylesheet" href="http://slicnet.com/info/info/apps/textsync/files/appcss.value.css">
+	<link rel="stylesheet" href="http://slicnet.com/info/info/apps/textsync/files/baseStyle.value.css">
+	  <script
+        src="http://appjangle.com/js/v01/appjangle/appjangle.nocache.js">
+    </script>
+
+    <script>var toDoList,session,aToDoList,aListValue,aListTitle,fetchedLists,currentList,
+    aTitleValueLink,aTitleValue,aListIdLink,aListId,aCompletionFlagLink,aCompletionFlag;
+        window.onNextwebOnedb = function() {
+			session = Nextweb.createSession();
+           // toDoList = session.seed().append("AllLists");
+           	aTitleValueLink = 'http://slicnet.com/seed1/seed1/7/5/7/1/h/sd';
+		aTitleValue = session.node(aTitleValueLink);
+		 aListIdLink = 'http://slicnet.com/seed1/seed1/7/6/2/5/h/sd/aListId';
+		aListId = session.node(aListIdLink);
+		 aCompletionFlagLink = 'http://slicnet.com/seed1/seed1/7/6/2/3/h/sd/aCompletionFlag';
+		 aCompletionFlag = session.node(aCompletionFlagLink);
+	
+		 	toDoList = session.seed().setValue("todos"); //session.node("http://slicnet.com/seed1/seed1/8/0/4/3/h/sd/ToDoLis1","ik8snw2edygdy5t");
+		 	
+		// $('#statuslabel').innerHTML = "Appjangle URL: "+ toDoList.uri();
+			 aToDoList = session.node("http://slicnet.com/seed1/seed1/7/9/8/6/h/sd/aList");//to be removed
+			 aListValue= session.node("http://slicnet.com/seed1/seed1/7/9/8/8/h/sd/aListValue");//to be removed
+			 aListTitle = session.node("http://slicnet.com/seed1/seed1/7/9/8/9/h/sd/aListTitle");//to be removed
+			
+		/* 	toDoList.selectAll().get(function(nodeList){
+			for (var count=0;count<nodeList.length;count++){
+			   console.log(nodeList[count].url());
+			   console.log(nodeList[count].select(aTitleValue));
+			  }
+			  fetchedLists=nodeList;
+			 }); */
+			// $("#ToDoLists").html(fetchedLists.values());
+		/*	var aItemId = session.node("http://slicnet.com/seed1/seed1/7/9/8/3/h/sd/aItemId").get();
+			var aItemText = session.node("http://slicnet.com/seed1/seed1/7/9/8/4/h/sd/aItemText").get();
+			var aCompletionFlag = session.node("http://slicnet.com/seed1/seed1/7/9/8/5/h/sd/aCompletionFlag").get();
+			*/
+           /* hello.get(function(node) {
+                document.body.appendChild(document.createTextNode(node.value()));
+            });*/
+        }
+    </script>
+	
 </head>
 <body>
-	<section id="todoapp">
+
+		
+	<div id="todoapp">
 		<header id="header">
 			<h1>todos</h1>
-			<!--button id = "load-btn">load</button-->
 			<input id="new-todo" placeholder="What needs to be done?" autofocus>
 		</header>
-		<section id="main">
+		<div id="main">
 			<input id="toggle-all" type="checkbox">
 			<label for="toggle-all">Mark all as complete</label>
 			<ul id="todo-list"></ul>
-		</section>
-		
+		</div>
 		<footer id="footer">
 			<span id="todo-count"><strong>0</strong> item left</span>
 			<button id="clear-completed">Clear completed</button>
 		</footer>
 		
-	
-	
-	</section>
+	</div>
 
 	<p id="nextweb">
-		<input id="load-url" type="text" label="To Do List URL" placeholder="Enter the load URL"></input>
-		<button id = "load-btn" type="button">load</button>
-		<br><label id="statuslabel">
+	<label id="statuslabel">
 		</label>
-		<button id = "save-btn" type="button">save</button>
-	</p>	
-	
+		<br>
+		<input id="load-url" type="text" label="To Do List URL" placeholder="Enter the todo list URL"></input>
+		<button id = "load-btn" type="button">load</button>
+	</p>
 	<footer id="info">
 		<p>Double-click to edit a todo</p>
-		<p>Created by <a href="http://www.perfecxus.com">Perfecxus Global</a></p>
-		<p>Part of <a href="http://github.com/perfecxus/persistenttodos">Persistent Todos</a></p>
+		<p>Created by <a href="http://github.com/sindresorhus">Sindre Sorhus</a></p>
+		<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
 	</footer>
-	
 	<script id="todo-template" type="text/x-handlebars-template">
 	{{#this}}
 	<li {{#if completed}}class="completed"{{/if}} data-id="{{id}}">
@@ -58,18 +96,13 @@
 	<script id="footer-template" type="text/x-handlebars-template">
 	<span id="todo-count"><strong>{{activeTodoCount}}</strong> {{activeTodoWord}} left</span>
 	{{#if completedTodos}}<button id="clear-completed">Clear completed ({{completedTodos}})</button>{{/if}}
+	
+	
 	</script>
-	<script id="nextfooter-template" type="text/x-handlebars-template">
-	<span id="saved-url"><strong>{{status}}} </strong> {{savedUrl}} </span>
-	</script>
-	<script>
-	cliked(): function{
-	 alert("saved");
-	}
-	</script>
-	<script src="bower_components/todomvc-common/base.js"></script>
-	<script src="bower_components/jquery/jquery.js"></script>
-	<script src="bower_components/handlebars/handlebars.js"></script>
-	<script src="js/app.js"></script>
+	<script src="http://slicnet.com/info/info/apps/textsync/files/basejs.value.js"></script>
+	<script src="http://slicnet.com/info/info/apps/textsync/files/jqueryjs.value.js"></script>
+	<script src="http://slicnet.com/info/info/apps/textsync/files/handlebarsjs.value.js"></script>
+	<script src="http://slicnet.com/info/info/apps/textsync/files/appjs.value.js"></script>
 </body>
 </html>
+<!-- one.end --> 

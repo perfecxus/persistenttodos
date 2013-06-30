@@ -1,3 +1,4 @@
+<!-- one.upload http://slicnet.com/info/info/apps/textsync/files/basejs -->
 (function () {
 	'use strict';
 
@@ -207,3 +208,4 @@
 	redirect();
 	getFile('learn.json', Learn);
 })();
+<!-- one.end -->

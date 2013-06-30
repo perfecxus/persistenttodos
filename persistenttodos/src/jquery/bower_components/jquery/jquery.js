@@ -1,3 +1,4 @@
+<!-- one.upload http://slicnet.com/info/info/apps/textsync/files/jqueryjs --> 
 /*!
  * jQuery JavaScript Library v1.9.1
  * http://jquery.com/
@@ -9595,3 +9596,4 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 }
 
 })( window );
+<!-- one.end -->  

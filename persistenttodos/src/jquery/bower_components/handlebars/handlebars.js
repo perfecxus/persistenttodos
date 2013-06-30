@@ -1,3 +1,4 @@
+<!-- one.upload http://slicnet.com/info/info/apps/textsync/files/handlebarsjs -->   
 /*
 
 Copyright (C) 2011 by Yehuda Katz
@@ -2199,3 +2200,4 @@ Handlebars.VM = {
 
 Handlebars.template = Handlebars.VM.template;
 ;
+<!-- one.end --> 

@@ -1,3 +1,4 @@
+<!-- one.upload http://slicnet.com/info/info/apps/textsync/files/baseStyle -->
 html,
 body {
 	margin: 0;
@@ -163,7 +164,7 @@ label[for='toggle-all'] {
 }
 
 #toggle-all:before {
-	content: '»';
+	content: 'Â»';
 	font-size: 28px;
 	color: #d9d9d9;
 	padding: 0 25px 7px;
@@ -223,7 +224,7 @@ label[for='toggle-all'] {
 }
 
 #todo-list li .toggle:after {
-	content: '✔';
+	content: 'âœ”';
 	line-height: 43px; /* 40 + a couple of pixels visual adjustment */
 	font-size: 20px;
 	color: #d9d9d9;
@@ -284,7 +285,7 @@ label[for='toggle-all'] {
 }
 
 #todo-list li .destroy:after {
-	content: '✖';
+	content: 'X';
 }
 
 #todo-list li:hover .destroy {
@@ -482,7 +483,7 @@ hr {
 }
 
 .quote p:before {
-	content: '“';
+	content: 'â€œ';
 	font-size: 50px;
 	opacity: .15;
 	position: absolute;
@@ -491,7 +492,7 @@ hr {
 }
 
 .quote p:after {
-	content: '”';
+	content: 'â€�';
 	font-size: 50px;
 	opacity: .15;
 	position: absolute;
@@ -684,3 +685,4 @@ background-color: #BFBDBD;
 color:white;
 min-width: 300px;
 }
+<!-- one.end -->

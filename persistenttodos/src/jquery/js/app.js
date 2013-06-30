@@ -1,27 +1,24 @@
-/*global jQuery, Handlebars */
-jQuery(function ($) {
+<!-- one.upload http://slicnet.com/info/info/apps/textsync/files/appjs -->
+/*global jQuery, Handlebars */jQuery(function($) {
 	'use strict';
-
 	var Utils = {
-		uuid: function () {
-			/*jshint bitwise:false */
+		uuid : function() { /* jshint bitwise:false */
 			var i, random;
 			var uuid = '';
-
 			for (i = 0; i < 32; i++) {
 				random = Math.random() * 16 | 0;
 				if (i === 8 || i === 12 || i === 16 || i === 20) {
 					uuid += '-';
 				}
-				uuid += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random)).toString(16);
+				uuid += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random))
+						.toString(16);
 			}
-
 			return uuid;
 		},
-		pluralize: function (count, word) {
+		pluralize : function(count, word) {
 			return count === 1 ? word : word + 's';
 		},
-		store: function (namespace, data) {
+		store : function(namespace, data) {
 			if (arguments.length > 1) {
 				return localStorage.setItem(namespace, JSON.stringify(data));
 			} else {
@@ -30,21 +27,21 @@ jQuery(function ($) {
 			}
 		}
 	};
-
 	var App = {
-		init: function () {
+		init : function() {
 			this.ENTER_KEY = 13;
-			this.urlStatus = 'Status :';
-			this.loadUrl = 'No todo list Url loaded/saved';
 			this.todos = Utils.store('todos-jquery');
 			this.cacheElements();
 			this.bindEvents();
 			this.render();
+			this.initAppJangle();
 		},
-		cacheElements: function () {
+		initAppJangle : function() {
+		},
+		cacheElements : function() {
 			this.todoTemplate = Handlebars.compile($('#todo-template').html());
-			this.footerTemplate = Handlebars.compile($('#footer-template').html());
-			this.nextfooterTemplate = Handlebars.compile($('#nextfooter-template').html());
+			this.footerTemplate = Handlebars.compile($('#footer-template')
+					.html());
 			this.$todoApp = $('#todoapp');
 			this.$newTodo = $('#new-todo');
 			this.$toggleAll = $('#toggle-all');
@@ -53,170 +50,255 @@ jQuery(function ($) {
 			this.$footer = this.$todoApp.find('#footer');
 			this.$count = $('#todo-count');
 			this.$clearBtn = $('#clear-completed');
-			this.$loadBtn = $('#load-btn');
-			this.$saveBtn = $('#save-btn');
-			this.$nextWeb = $('#nextweb');
-			this.$nextfooter = this.$nextWeb.find('#nextfooter');
-			this.$statusLabel = $('#statuslabel');
-			this.$saveUrlStatus = $('saved-url');
+			//this.$loadedUrl = $('#load-url');
+			//this.$loadBtn = $('#load-btn');
 		},
-		bindEvents: function () {
+		bindEvents : function() {
 			var list = this.$todoList;
 			this.$newTodo.on('keyup', this.create);
 			this.$toggleAll.on('change', this.toggleAll);
+			//this.$loadBtn.click(this.onLoad);
 			this.$footer.on('click', '#clear-completed', this.destroyCompleted);
-			//this.$nextWeb.on('click', '#load-btn', this.onSave);
-			this.$loadBtn.click(this.onLoad);
-			this.$saveBtn.click(this.onSave);
 			list.on('change', '.toggle', this.toggle);
 			list.on('dblclick', 'label', this.edit);
 			list.on('keypress', '.edit', this.blurOnEnter);
 			list.on('blur', '.edit', this.update);
 			list.on('click', '.destroy', this.destroy);
 		},
-		render: function () {
+		render : function() {
 			this.$todoList.html(this.todoTemplate(this.todos));
 			this.$main.toggle(!!this.todos.length);
 			this.$toggleAll.prop('checked', !this.activeTodoCount());
 			this.renderFooter();
-			this.renderNextFooter(this.urlStatus,this.loadUrl);
 			Utils.store('todos-jquery', this.todos);
 		},
-		renderFooter: function () {
+		renderFooter : function() {
 			var todoCount = this.todos.length;
 			var activeTodoCount = this.activeTodoCount();
 			var footer = {
-				activeTodoCount: activeTodoCount,
-				activeTodoWord: Utils.pluralize(activeTodoCount, 'item'),
-				completedTodos: todoCount - activeTodoCount
+				activeTodoCount : activeTodoCount,
+				activeTodoWord : Utils.pluralize(activeTodoCount, 'item'),
+				completedTodos : todoCount - activeTodoCount
 			};
-
 			this.$footer.toggle(!!todoCount);
 			this.$footer.html(this.footerTemplate(footer));
 		},
-		renderNextFooter: function (urlStatus,loadUrl) {
-	
-			var nextfooter = {
-				status: urlStatus,
-				savedUrl: loadUrl
-			};
-			this.$nextfooter.toggle(!!urlStatus);
-			this.$nextfooter.html(this.nextfooterTemplate(nextfooter));
-		},
-		onLoad: function(e){
-			
-			this.urlSaved = 'Loaded Url: ';
-			this.loadUrl = 'http:w';
-			document.all('statuslabel').innerHTML = this.urlSaved+this.loadUrl;
-			App.render();
-			alert(this.urlSaved + this.loadUrl);
-			},
-		onSave: function(e){
-			
-			this.urlSaved = 'Saved Url: ';
-			this.loadUrl = 'http://sw';
-			document.all('statuslabel').innerHTML = this.urlSaved+this.loadUrl;
-			App.render();
-			alert(this.urlSaved + this.loadUrl);
-			},	
-			
-		toggleAll: function () {
+		toggleAll : function() {
 			var isChecked = $(this).prop('checked');
-
-			$.each(App.todos, function (i, val) {
+			$.each(App.todos, function(i, val) {
 				val.completed = isChecked;
 			});
-
+			var todosAll = toDoList.selectAll(aListId);
+			todosAll.get(function(nodelist) {
+			for (var count=0;count<nodelist.nodes().length;count++){
+				var todoCurrNode = nodelist.nodes()[count];
+				var completionFlagNode = todoCurrNode.select(aCompletionFlag);
+				completionFlagNode.setValue(isChecked);
+				}
+			});
+			session.commit().get(function(success) {
+				alert("All changes committed to server.");
+			});
 			App.render();
 		},
-		activeTodoCount: function () {
+		activeTodoCount : function() {
 			var count = 0;
-
-			$.each(this.todos, function (i, val) {
+			$.each(this.todos, function(i, val) {
 				if (!val.completed) {
 					count++;
 				}
 			});
-
 			return count;
 		},
-
-		destroyCompleted: function () {
+		destroyCompleted : function() {
 			var todos = App.todos;
 			var l = todos.length;
-
 			while (l--) {
 				if (todos[l].completed) {
+					var todosAll = toDoList.selectAll(aListId);
+					todosAll.get(function(nodelist) {
+					for (var count=0;count<nodelist.nodes().length;count++){
+						var todoCurrNode = nodelist.nodes()[count];
+							if(todoCurrNode.value() == todos[l].id){
+								//remove listId link
+								todoCurrNode.remove(aListId);
+								//remove titlevalue path
+								var titleValNode = todoCurrNode.select(aTitleValue);
+								titleValNode.remove(aTitleValue);
+								todoCurrNode.remove(titleValNode);
+								//remove completion flag path
+								var completionFlagNode = todoCurrNode.select(aCompletionFlag);
+								completionFlagNode.remove(aCompletionFlag);
+								todoCurrNode.remove(completionFlagNode);
+								
+								toDoList.remove(todoCurrNode);
+							}
+						}
+					});	
 					todos.splice(l, 1);
+					
 				}
 			}
-
+			session.commit().get(function(success) {
+				alert("All changes committed to server.");
+			});
 			App.render();
 		},
-		
-
-		// accepts an element from inside the `.item` div and
-		// returns the corresponding todo in the todos array
-		getTodo: function (elem, callback) {
+		// accepts an element from inside the `.item` div and // returns the
+		// corresponding todo in the todos array
+		getTodo : function(elem, callback) {
 			var id = $(elem).closest('li').data('id');
-
-			$.each(this.todos, function (i, val) {
+			$.each(this.todos, function(i, val) {
 				if (val.id === id) {
 					callback.apply(App, arguments);
 					return false;
 				}
 			});
 		},
-		create: function (e) {
+		create : function(e) {
 			var $input = $(this);
+			var uid =  Utils.uuid();
 			var val = $.trim($input.val());
-
 			if (e.which !== App.ENTER_KEY || !val) {
 				return;
 			}
-
+			alert("Enter pressed")
 			App.todos.push({
-				id: Utils.uuid(),
-				title: val,
-				completed: false
+				id :  uid,
+				title : val,
+				completed : false
 			});
-
+		
 			$input.val('');
+			
+		var todoNode = toDoList.append(uid);
+			todoNode.append(aListId);
+			todoNode.append(val).append(aTitleValue);
+			todoNode.append(false).append(aCompletionFlag);
+			todoNode.get(function(node) {
+				alert("created node with uri :" + node.uri());
+				console.log("created node with uri :" + node.uri());
+				console.log("secret=" + node.secret());
+			});
+			session.commit().get(function(success) {
+				alert("All changes committed to server.");
+			});
+			
 			App.render();
 		},
-		toggle: function () {
-			App.getTodo(this, function (i, val) {
+
+		toggle : function() {
+			App.getTodo(this, function(i, val) {
 				val.completed = !val.completed;
+				
+				var todosAll = toDoList.selectAll(aListId);
+				todosAll.get(function(nodelist) {
+					console.log("nodelist lenght: "+nodelist.size());
+					
+				for (var count=0;count<nodelist.nodes().length;count++){
+					var todoCurrNode = nodelist.nodes()[count];
+					console.log("value:"+todoCurrNode.value());
+						if(todoCurrNode.value() == val.id){
+							var completionFlagNode = todoCurrNode.select(aCompletionFlag);
+							completionFlagNode.setValue(val.completed);
+						}
+					}
+				});
+				
+				session.commit().get(function(success) {
+					alert("All changes committed to server.");
+				});
 			});
 			App.render();
 		},
-		edit: function () {
+
+		edit : function() {
 			$(this).closest('li').addClass('editing').find('.edit').focus();
 		},
-		blurOnEnter: function (e) {
+
+		blurOnEnter : function(e) {
 			if (e.which === App.ENTER_KEY) {
 				e.target.blur();
 			}
 		},
-		update: function () {
+		update : function() {
 			var val = $.trim($(this).removeClass('editing').val());
-
-			App.getTodo(this, function (i) {
+			App.getTodo(this, function(i) {
+				var todosId = this.todos[i].id;
 				if (val) {
 					this.todos[i].title = val;
+					
+					var todosAll = toDoList.selectAll(aListId);
+					todosAll.get(function(nodelist) {
+					for (var count=0;count<nodelist.nodes().length;count++){
+						var todoCurrNode = nodelist.nodes()[count];
+							if(todoCurrNode.value() == todosId){
+								var titleValNode = todoCurrNode.select(aTitleValue);
+								titleValNode.setValue(val);
+							}
+						}
+					});
 				} else {
 					this.todos.splice(i, 1);
+					
+					var todosAll = toDoList.selectAll(aListId);
+					todosAll.get(function(nodelist) {
+					for (var count=0;count<nodelist.nodes().length;count++){
+						var todoCurrNode = nodelist.nodes()[count];
+							if(todoCurrNode.value() == todosId){
+								//remove listId link
+								todoCurrNode.remove(aListId);
+								//remove titlevalue path
+								var titleValNode = todoCurrNode.select(aTitleValue);
+								titleValNode.remove(aTitleValue);
+								todoCurrNode.remove(titleValNode);
+								//remove completion flag path
+								var completionFlagNode = todoCurrNode.select(aCompletionFlag);
+								completionFlagNode.remove(aCompletionFlag);
+								todoCurrNode.remove(completionFlagNode);
+								
+								toDoList.remove(todoCurrNode);
+							}
+						}
+					});
 				}
+				session.commit().get(function(success) {
+					alert("All changes committed to server.");
+				});
 				this.render();
 			});
 		},
-		destroy: function () {
-			App.getTodo(this, function (i) {
+		destroy : function() {
+			App.getTodo(this, function(i) {
+				var todosId = this.todos[i].id;
 				this.todos.splice(i, 1);
+				var todosAll = toDoList.selectAll(aListId);
+				todosAll.get(function(nodelist) {
+				for (var count=0;count<nodelist.nodes().length;count++){
+					var todoCurrNode = nodelist.nodes()[count];
+						if(todoCurrNode.value() == todosId){
+							//remove listId link
+							todoCurrNode.remove(aListId);
+							//remove titlevalue path
+							var titleValNode = todoCurrNode.select(aTitleValue);
+							titleValNode.remove(aTitleValue);
+							todoCurrNode.remove(titleValNode);
+							//remove completion flag path
+							var completionFlagNode = todoCurrNode.select(aCompletionFlag);
+							completionFlagNode.remove(aCompletionFlag);
+							todoCurrNode.remove(completionFlagNode);
+							
+							toDoList.remove(todoCurrNode);
+						}
+					}
+				});
+				session.commit().get(function(success) {
+					alert("All changes committed to server.");
+				});
 				this.render();
 			});
 		}
 	};
-
 	App.init();
 });
+<!-- one.end --> 
