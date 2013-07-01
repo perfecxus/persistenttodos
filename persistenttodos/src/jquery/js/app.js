@@ -50,14 +50,14 @@
 			this.$footer = this.$todoApp.find('#footer');
 			this.$count = $('#todo-count');
 			this.$clearBtn = $('#clear-completed');
-			//this.$loadedUrl = $('#load-url');
-			//this.$loadBtn = $('#load-btn');
+			this.$loadedUrl = $('#load-url');
+			this.$loadBtn = $('#load-btn');
 		},
 		bindEvents : function() {
 			var list = this.$todoList;
 			this.$newTodo.on('keyup', this.create);
 			this.$toggleAll.on('change', this.toggleAll);
-			//this.$loadBtn.click(this.onLoad);
+			this.$loadBtn.click(this.onLoad);
 			this.$footer.on('click', '#clear-completed', this.destroyCompleted);
 			list.on('change', '.toggle', this.toggle);
 			list.on('dblclick', 'label', this.edit);
@@ -211,7 +211,62 @@
 			});
 			App.render();
 		},
+		onLoad: function(e){
+			var todos = App.todos;
+			var urlValue = $('#load-url').val();
+			toDoList = session.node(urlValue); //loading todolist from appjangle
+			toDoList.catchExceptions(function(r) {
+			    console.log("Exception reported! "+r.exception);
+			    alert("Please enter a valid todolist Url and reload");//exception handling if todolist url is incorrect
+			});
+			
+			toDoList.get(function(node) {
+			    console.log("Got it!");
+			   // document.all('statuslabel').innerHTML = "Appjangle URL: "+ urlValue;			    
+			});
+			toDoList.selectAll(aListId).get(function(nodelist){
+				//clearing the current todolist
+				var l = todos.length;
+				while(l--){
+					todos.splice(l,1);
+				}
 
+				//loading the todolist retrieved from appjangle to the UI
+				for (var count=0;count<nodelist.nodes().length;count++){
+					var todoCurrNode = nodelist.nodes()[count];
+					var uid= todoCurrNode.value();				
+					//
+					var titleValNode = todoCurrNode.select(aTitleValue);
+					titleValNode.catchExceptions(function(r) {
+					    console.log("Exception reported! "+r.exception);
+					    alert("Wrong title Value node");//exception handling if todolist url is incorrect
+					});
+					
+					toDoList.get(function(node) {
+					    console.log("Got it!");
+					    valu = node.value();
+					   // document.all('statuslabel').innerHTML = "Appjangle URL: "+ urlValue;			    
+					});
+					
+					var completionFlagNode = todoCurrNode.select(aCompletionFlag);
+					
+					completionFlagNode.get(function(node) {
+						console.log(node.value());
+						completionFlagVal = node.value();
+					});
+					todos.push({
+						id : uid,
+						title : valu,
+						completed : completionFlagVal
+					});
+					   //console.log(nodeList[count].url());
+					  // console.log(nodeList[count].select(aTitleValue));
+					  }
+			});
+			
+			App.render();
+			},
+		
 		edit : function() {
 			$(this).closest('li').addClass('editing').find('.edit').focus();
 		},
