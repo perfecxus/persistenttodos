@@ -212,6 +212,9 @@
 			App.render();
 		},
 		onLoad: function(e){
+			App.todos = [];
+			App.render();
+			console.log("initial  App.todos: " + App.todos);
 			var todos = App.todos;
 			var urlValue = $('#load-url').val();
 			toDoList = session.node(urlValue); //loading todolist from appjangle
@@ -226,10 +229,7 @@
 			});
 			toDoList.selectAll(aListId).get(function(nodelist){
 				//clearing the current todolist
-				var l = todos.length;
-				while(l--){
-					todos.splice(l,1);
-				}
+				
 
 				//loading the todolist retrieved from appjangle to the UI
 				for (var count=0;count<nodelist.nodes().length;count++){
@@ -242,29 +242,47 @@
 					    alert("Wrong title Value node");//exception handling if todolist url is incorrect
 					});
 					
-					toDoList.get(function(node) {
+				/*	titleValNode.get(function(node) {
 					    console.log("Got it!");
-					    valu = node.value();
+					    console.log(String(node.value()));
+					    valu = new String(node.value());
+					    console.log("value: "+valu);
 					   // document.all('statuslabel').innerHTML = "Appjangle URL: "+ urlValue;			    
-					});
+					});*/
 					
 					var completionFlagNode = todoCurrNode.select(aCompletionFlag);
 					
-					completionFlagNode.get(function(node) {
-						console.log(node.value());
-						completionFlagVal = node.value();
-					});
-					todos.push({
-						id : uid,
-						title : valu,
-						completed : completionFlagVal
-					});
+				/*	completionFlagNode.get(function(node) {
+						console.log(String(node.value()));
+						completionFlagVal = new Boolean(node.value());
+					});*/
+					   session.getAll(titleValNode, completionFlagNode, function(titleNode, completionNode) {
+						   console.log("Got it!");
+						    console.log(String(titleNode.value()));
+						    valu = new String(titleNode.value());
+						    console.log("value: "+valu);
+						    
+						    console.log(String(completionNode.value()));
+						    var boolobj = completionNode.value();
+							completionFlagVal = boolobj.valueOf();
+						    
+							todos.push({
+								id : uid,
+								title : valu,
+								completed : completionFlagVal
+							});
+							
+							console.log("final total sync App.todos: " + App.todos);
+							App.render();
+					   });
+					
 					   //console.log(nodeList[count].url());
 					  // console.log(nodeList[count].select(aTitleValue));
 					  }
+				console.log("final sync App.todos: " + App.todos);
+				
 			});
-			
-			App.render();
+			console.log("final  App.todos: " + App.todos);
 			},
 		
 		edit : function() {
