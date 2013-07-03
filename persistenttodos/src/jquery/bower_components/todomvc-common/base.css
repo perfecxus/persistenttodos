@@ -654,6 +654,17 @@ background-color: #BFBDBD;
     box-shadow: 2px 2px 0 #828181 inset;
 }
 
+
+#load-secret{
+background-color: #BFBDBD;
+    border:solid 1px #BFBDBD;
+    color: #979797;
+    height: 28px;
+    padding-left:10px;
+    width: 150px;
+    box-shadow: 2px 2px 0 #828181 inset;
+}
+
 #nextfooter {
 	color: #777;
 	padding: 0 15px;
@@ -681,6 +692,9 @@ background-color: #BFBDBD;
 				0 44px 2px -6px rgba(0, 0, 0, 0.2);
 }
 
+#showingUrl{
+	color: white;
+}
 #statuslabel {
 color:white;
 min-width: 300px;

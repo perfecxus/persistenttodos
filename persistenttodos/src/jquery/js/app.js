@@ -23,7 +23,7 @@
 				return localStorage.setItem(namespace, JSON.stringify(data));
 			} else {
 				var store = localStorage.getItem(namespace);
-				return (store && JSON.parse(store)) || [];
+				return [];
 			}
 		}
 	};
@@ -217,7 +217,8 @@
 			console.log("initial  App.todos: " + App.todos);
 			var todos = App.todos;
 			var urlValue = $('#load-url').val();
-			toDoList = session.node(urlValue); //loading todolist from appjangle
+			var urlSecret = $('#load-secret').val();
+			toDoList = session.node(urlValue,urlSecret); //loading todolist from appjangle
 			toDoList.catchExceptions(function(r) {
 			    console.log("Exception reported! "+r.exception);
 			    alert("Please enter a valid todolist Url and reload");//exception handling if todolist url is incorrect
@@ -225,6 +226,9 @@
 			
 			toDoList.get(function(node) {
 			    console.log("Got it!");
+			    toDoListSecret = node.secret();
+			    $('#showingUrl').href = node.uri();
+		 		$('#showingUrl').text("Viewing "+ node.uri());
 			   // document.all('statuslabel').innerHTML = "Appjangle URL: "+ urlValue;			    
 			});
 			toDoList.selectAll(aListId).get(function(nodelist){
@@ -242,20 +246,11 @@
 					    alert("Wrong title Value node");//exception handling if todolist url is incorrect
 					});
 					
-				/*	titleValNode.get(function(node) {
-					    console.log("Got it!");
-					    console.log(String(node.value()));
-					    valu = new String(node.value());
-					    console.log("value: "+valu);
-					   // document.all('statuslabel').innerHTML = "Appjangle URL: "+ urlValue;			    
-					});*/
+			
 					
 					var completionFlagNode = todoCurrNode.select(aCompletionFlag);
 					
-				/*	completionFlagNode.get(function(node) {
-						console.log(String(node.value()));
-						completionFlagVal = new Boolean(node.value());
-					});*/
+
 					   session.getAll(titleValNode, completionFlagNode, function(titleNode, completionNode) {
 						   console.log("Got it!");
 						    console.log(String(titleNode.value()));
@@ -276,8 +271,7 @@
 							App.render();
 					   });
 					
-					   //console.log(nodeList[count].url());
-					  // console.log(nodeList[count].select(aTitleValue));
+					  
 					  }
 				console.log("final sync App.todos: " + App.todos);
 				

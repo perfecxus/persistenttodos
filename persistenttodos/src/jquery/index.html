@@ -4,18 +4,18 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>jQuery • TodoMVC</title>
+	<title>jQuery • Persistent Todos</title>
 	<link rel="stylesheet" href="http://slicnet.com/info/info/apps/textsync/files/appcss.value.css">
 	<link rel="stylesheet" href="http://slicnet.com/info/info/apps/textsync/files/baseStyle.value.css">
 	  <script
         src="http://appjangle.com/js/v01/appjangle/appjangle.nocache.js">
     </script>
 
-    <script>var toDoList,session,aToDoList,aListValue,aListTitle,fetchedLists,currentList,
+    <script>var toDoList,toDoListSecret,session,aToDoList,aListValue,aListTitle,fetchedLists,currentList,
     aTitleValueLink,aTitleValue,aListIdLink,aListId,aCompletionFlagLink,aCompletionFlag, valu,completionFlagVal;
         window.onNextwebOnedb = function() {
 			session = Nextweb.createSession();
-           // toDoList = session.seed().append("AllLists");
+           
            	aTitleValueLink = 'http://slicnet.com/seed1/seed1/7/5/7/1/h/sd';
 		aTitleValue = session.node(aTitleValueLink);
 		 aListIdLink = 'http://slicnet.com/seed1/seed1/7/6/2/5/h/sd/aListId';
@@ -23,28 +23,20 @@
 		 aCompletionFlagLink = 'http://slicnet.com/seed1/seed1/7/6/2/3/h/sd/aCompletionFlag';
 		 aCompletionFlag = session.node(aCompletionFlagLink);
 	
-		 	toDoList = session.seed().setValue("todos"); //session.node("http://slicnet.com/seed1/seed1/8/0/4/3/h/sd/ToDoLis1","ik8snw2edygdy5t");
+			 toDoList = session.seed().setValue("todos"); 
+		 
 		 	
-		// $('#statuslabel').innerHTML = "Appjangle URL: "+ toDoList.uri();
+		 	toDoList.get(function(node){
+		 		toDoListSecret = node.secret();
+		 		alert("The seed Url is: " + node.uri() + "\n Secret:" + toDoListSecret);
+		 		$('#showingUrl').href = ""+ node.uri()+"";
+		 		$('#showingUrl').text("Viewing: "+ node.uri());
+		 	});
+		 	
 			 aToDoList = session.node("http://slicnet.com/seed1/seed1/7/9/8/6/h/sd/aList");//to be removed
 			 aListValue= session.node("http://slicnet.com/seed1/seed1/7/9/8/8/h/sd/aListValue");//to be removed
 			 aListTitle = session.node("http://slicnet.com/seed1/seed1/7/9/8/9/h/sd/aListTitle");//to be removed
 			
-		/* 	toDoList.selectAll().get(function(nodeList){
-			for (var count=0;count<nodeList.length;count++){
-			   console.log(nodeList[count].url());
-			   console.log(nodeList[count].select(aTitleValue));
-			  }
-			  fetchedLists=nodeList;
-			 }); */
-			// $("#ToDoLists").html(fetchedLists.values());
-		/*	var aItemId = session.node("http://slicnet.com/seed1/seed1/7/9/8/3/h/sd/aItemId").get();
-			var aItemText = session.node("http://slicnet.com/seed1/seed1/7/9/8/4/h/sd/aItemText").get();
-			var aCompletionFlag = session.node("http://slicnet.com/seed1/seed1/7/9/8/5/h/sd/aCompletionFlag").get();
-			*/
-           /* hello.get(function(node) {
-                document.body.appendChild(document.createTextNode(node.value()));
-            });*/
         }
     </script>
 	
@@ -69,17 +61,17 @@
 		
 	</div>
 
+	
 	<p id="nextweb">
-	<label id="statuslabel">
-		</label>
-		<br>
-		<input id="load-url" type="text" label="To Do List URL" placeholder="Enter the todo list URL"></input>
-		<button id = "load-btn" type="button">load</button>
+		<a id="showingUrl"></a> <br><br>
+		<input id="load-url" type="text" label="To Do List URL" placeholder="Enter the todo list URL"></input><br>
+		<input id="load-secret" type="text" label="To Do List Secret" placeholder="Enter the todo list secret"></input>
+		<button id = "load-btn" type="button">load</button> <br>
 	</p>
 	<footer id="info">
 		<p>Double-click to edit a todo</p>
-		<p>Created by <a href="http://github.com/sindresorhus">Sindre Sorhus</a></p>
-		<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+		<p>Created by <a href="http://www.perfecxus.com">Perfecxus Global</a></p>
+		<p>Part of <a href="https://github.com/perfecxus/persistenttodos">Persist Todos</a></p>
 	</footer>
 	<script id="todo-template" type="text/x-handlebars-template">
 	{{#this}}
