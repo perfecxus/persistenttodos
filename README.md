@@ -20,3 +20,5 @@ A demo is available at : http://slicnet.com/info/info/apps/textsync/files/myApp.
 
 For more info write to us at: info@perfecxus.com
 
+NOTE: Use of this code requires our Opensource License as well as ApacheLicense 2.0
+
