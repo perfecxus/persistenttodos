@@ -28,9 +28,9 @@
 		 	
 		 	toDoList.get(function(node){
 		 		toDoListSecret = node.secret();
-		 		alert("The seed Url is: " + node.uri() + "\n Secret:" + toDoListSecret);
+		 		alert("The seed Url is: " + node.uri() + "\n Secret: " + toDoListSecret);
 		 		$('#showingUrl').href = ""+ node.uri()+"";
-		 		$('#showingUrl').text("Viewing: "+ node.uri());
+		 		$('#showingUrl').text("Viewing: "+ node.uri() + "&"+toDoListSecret);
 		 	});
 		 	
 			 aToDoList = session.node("http://slicnet.com/seed1/seed1/7/9/8/6/h/sd/aList");//to be removed
@@ -64,8 +64,7 @@
 	
 	<p id="nextweb">
 		<a id="showingUrl"></a> <br><br>
-		<input id="load-url" type="text" label="To Do List URL" placeholder="Enter the todo list URL"></input><br>
-		<input id="load-secret" type="text" label="To Do List Secret" placeholder="Enter the todo list secret"></input>
+		<input id="load-url" type="text" label="To Do List URL" placeholder="Enter the todo list URL"></input>
 		<button id = "load-btn" type="button">load</button> <br>
 	</p>
 	<footer id="info">

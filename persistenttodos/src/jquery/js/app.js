@@ -97,7 +97,7 @@
 				}
 			});
 			session.commit().get(function(success) {
-				alert("All changes committed to server.");
+				console.log("All changes committed to server.");
 			});
 			App.render();
 		},
@@ -140,7 +140,7 @@
 				}
 			}
 			session.commit().get(function(success) {
-				alert("All changes committed to server.");
+				console.log("All changes committed to server.");
 			});
 			App.render();
 		},
@@ -162,7 +162,7 @@
 			if (e.which !== App.ENTER_KEY || !val) {
 				return;
 			}
-			alert("Enter pressed")
+			//alert("Enter pressed")
 			App.todos.push({
 				id :  uid,
 				title : val,
@@ -176,12 +176,12 @@
 			todoNode.append(val).append(aTitleValue);
 			todoNode.append(false).append(aCompletionFlag);
 			todoNode.get(function(node) {
-				alert("created node with uri :" + node.uri());
+				//alert("created node with uri :" + node.uri());
 				console.log("created node with uri :" + node.uri());
 				console.log("secret=" + node.secret());
 			});
 			session.commit().get(function(success) {
-				alert("All changes committed to server.");
+				//alert("All changes committed to server.");
 			});
 			
 			App.render();
@@ -206,7 +206,7 @@
 				});
 				
 				session.commit().get(function(success) {
-					alert("All changes committed to server.");
+					//alert("All changes committed to server.");
 				});
 			});
 			App.render();
@@ -216,8 +216,10 @@
 			App.render();
 			console.log("initial  App.todos: " + App.todos);
 			var todos = App.todos;
-			var urlValue = $('#load-url').val();
-			var urlSecret = $('#load-secret').val();
+			var urlValueWithSecret = $('#load-url').val();
+			var arrUrlSecret = urlValueWithSecret.split("&");
+			var urlValue = arrUrlSecret[0];
+			var urlSecret = arrUrlSecret[1];
 			toDoList = session.node(urlValue,urlSecret); //loading todolist from appjangle
 			toDoList.catchExceptions(function(r) {
 			    console.log("Exception reported! "+r.exception);
@@ -228,7 +230,7 @@
 			    console.log("Got it!");
 			    toDoListSecret = node.secret();
 			    $('#showingUrl').href = node.uri();
-		 		$('#showingUrl').text("Viewing "+ node.uri());
+		 		$('#showingUrl').text("Viewing "+ node.uri() +"&"+ toDoListSecret);
 			   // document.all('statuslabel').innerHTML = "Appjangle URL: "+ urlValue;			    
 			});
 			toDoList.selectAll(aListId).get(function(nodelist){
@@ -243,7 +245,7 @@
 					var titleValNode = todoCurrNode.select(aTitleValue);
 					titleValNode.catchExceptions(function(r) {
 					    console.log("Exception reported! "+r.exception);
-					    alert("Wrong title Value node");//exception handling if todolist url is incorrect
+					   // alert("Wrong title Value node");//exception handling if todolist url is incorrect
 					});
 					
 			
@@ -330,7 +332,7 @@
 					});
 				}
 				session.commit().get(function(success) {
-					alert("All changes committed to server.");
+					console.log("All changes committed to server.");
 				});
 				this.render();
 			});
@@ -360,7 +362,7 @@
 					}
 				});
 				session.commit().get(function(success) {
-					alert("All changes committed to server.");
+					//alert("All changes committed to server.");
 				});
 				this.render();
 			});
